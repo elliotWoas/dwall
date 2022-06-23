@@ -50,7 +50,15 @@ function getMessagesFromDb(username){// get messages from the database
   let jsonDatabase=readDatabaseAsJson();
 
   if(username==null) return jsonDatabase;
-  else return jsonDatabase[username];
+  
+  let userMessages=jsonDatabase[username];
+
+  if(userMessages == null){
+    userMessages=[];   
+  }
+
+  return userMessages;
+  
 }
 
 function readDatabaseAsJson(){
