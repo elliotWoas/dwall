@@ -31,13 +31,7 @@ app.listen(port, () => {
 
 
 function writeMessageToDb(username,message){//writes a message to the database
-  let jsonDatabase=readDatabaseAsJson();
-
-  let userMessages=jsonDatabase[username];
-
-  if(userMessages == null){
-    userMessages=[];   
-  }
+  let userMessages=getMessagesFromDb(username);
 
   userMessages.push(message);
   
