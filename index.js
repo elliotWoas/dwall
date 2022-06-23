@@ -15,6 +15,8 @@ app.get('/wall/:username',function (req,res){//returns messages written by a use
 })
 
 app.post('/wall/:username',function(req,res){// writes a new message submitted by a user
+  let username = req.params.username;
+  let message = req.body.msg;
 
 })
 
@@ -25,8 +27,22 @@ app.listen(port, () => {
 
 function writeMessageToDb(username,message){//writes a message to the database
   
+  let rawDatabase = fs.readFileSync('database.json');
+  let jsonDatabase = JSON.parse(rawDatabase);
+
+  let userMessages=jsonDatabase[username];
+
+  if(userMessages == null){
+    userMessages=[];   
+  }
+
+  userMessages.push(message);
+  
+  jsonDatabase[username]=userMessages;
+  
+  fs.writeFileSync('database.json', JSON.stringify(jsonDatabase));
 }
 
 function getMessagesFromDb(username){// get messages from the database 
-  
+
 }
