@@ -31,9 +31,7 @@ app.listen(port, () => {
 
 
 function writeMessageToDb(username,message){//writes a message to the database
-  
-  let rawDatabase = fs.readFileSync('database.json');
-  let jsonDatabase = JSON.parse(rawDatabase);
+  let jsonDatabase=readDatabaseAsJson();
 
   let userMessages=jsonDatabase[username];
 
@@ -49,9 +47,19 @@ function writeMessageToDb(username,message){//writes a message to the database
 }
 
 function getMessagesFromDb(username){// get messages from the database 
-  let rawDatabase = fs.readFileSync('database.json');
-  let jsonDatabase = JSON.parse(rawDatabase);
-  
+  let jsonDatabase=readDatabaseAsJson();
+
   if(username==null) return jsonDatabase;
   else return jsonDatabase[username];
+}
+
+function readDatabaseAsJson(){
+  let jsonDatabase = null;
+  try{
+    let rawDatabase = fs.readFileSync('database.json');
+    jsonDatabase = JSON.parse(rawDatabase);  
+  }catch(e){
+    jsonDatabase={};
+  }
+  return jsonDatabase;
 }
