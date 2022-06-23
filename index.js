@@ -13,7 +13,9 @@ app.get('/wall', function (req, res) {//returns all messages
 app.get('/wall/:username',function (req,res){//returns messages written by a user
   let username = req.params.username;
   let userMessages=getMessagesFromDb(username);
-  res.json(userMessages);
+  let response={};
+  response[username]=userMessages;
+  res.json(response);
 })
 
 app.post('/wall/:username',function(req,res){// writes a new message submitted by a user
