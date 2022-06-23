@@ -7,7 +7,8 @@ const port = 3000
 app.use(express.json());
 
 app.get('/wall', function (req, res) {//returns all messages
-
+  let messages=getMessagesFromDb();
+  res.json(messages);
 })
 
 app.get('/wall/:username',function (req,res){//returns messages written by a user
