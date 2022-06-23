@@ -17,7 +17,10 @@ app.get('/wall/:username',function (req,res){//returns messages written by a use
 app.post('/wall/:username',function(req,res){// writes a new message submitted by a user
   let username = req.params.username;
   let message = req.body.msg;
-
+  writeMessageToDb(username,message);
+  res.json({
+    "status":"Your message was written on the databse"   
+  })
 })
 
 app.listen(port, () => {
