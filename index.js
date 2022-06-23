@@ -44,5 +44,9 @@ function writeMessageToDb(username,message){//writes a message to the database
 }
 
 function getMessagesFromDb(username){// get messages from the database 
-
+  let rawDatabase = fs.readFileSync('database.json');
+  let jsonDatabase = JSON.parse(rawDatabase);
+  
+  if(username==null) return jsonDatabase;
+  else return jsonDatabase[username];
 }
