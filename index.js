@@ -27,6 +27,20 @@ app.post('/wall/:username',function(req,res){// writes a new message submitted b
   })
 })
 
+app.delete('/wall/:username',function(req,res){// deletes a user messages
+ 
+  let jsonDatabase=readDatabaseAsJson();  
+  
+  jsonDatabase[username]=[];
+  
+  fs.writeFileSync('database.json', JSON.stringify(jsonDatabase));
+ 
+  res.json({
+    "status":"Your message was written on the databse"   
+  })
+
+})
+
 app.listen(port, () => {
   console.log(`DiaryOnWall app listening on port ${port}`)
 })
