@@ -10,14 +10,13 @@ const client = new MongoClient(url);
 app.use(express.json());
 app.use(async (req,res,next)=>{
   await connectDb();
-  console.log("middleeee");
   next();
-})
+});
 
 app.get('/wall', function (req, res) {//returns all messages
   let messages=getMessagesFromDb();
   res.json(messages);
-})
+});
 
 app.post('/wall/register', async function(req,res){// writes a new message submitted by a user
   let email = req.body.email;
@@ -25,7 +24,7 @@ app.post('/wall/register', async function(req,res){// writes a new message submi
   res.json({
     "status":"User is registerd"   
   })
-})
+});
 
 app.get('/wall/:username',function (req,res){//returns messages written by a user
   let username = req.params.username;
@@ -33,7 +32,7 @@ app.get('/wall/:username',function (req,res){//returns messages written by a use
   let response={};
   response[username]=userMessages;
   res.json(response);
-})
+});
 
 app.post('/wall/:username',function(req,res){// writes a new message submitted by a user
   let username = req.params.username;
@@ -42,7 +41,7 @@ app.post('/wall/:username',function(req,res){// writes a new message submitted b
   res.json({
     "status":"Your message was written on the databse"   
   })
-})
+});
 
 app.delete('/wall/:username',function(req,res){// deletes a user messages
  
@@ -56,11 +55,11 @@ app.delete('/wall/:username',function(req,res){// deletes a user messages
     "status":"Your message was written on the databse"   
   })
 
-})
+});
 
 app.listen(port, () => {
   console.log(`DiaryOnWall app listening on port ${port}`)
-})
+});
 
 
 function writeMessageToDb(username,message){//writes a message to the database
