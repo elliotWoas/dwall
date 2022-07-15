@@ -7,8 +7,12 @@ const port = 3000;
 const url = 'mongodb+srv://heftekharm:N2EObillaaFn6wjp@cluster0.02kqj.mongodb.net/?retryWrites=true&w=majority';
 const client = new MongoClient(url);
 
-connectDb();
 app.use(express.json());
+app.use(async (req,res,next)=>{
+  await connectDb();
+  console.log("middleeee");
+  next();
+})
 
 app.get('/wall', function (req, res) {//returns all messages
   let messages=getMessagesFromDb();
