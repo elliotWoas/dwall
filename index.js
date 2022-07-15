@@ -1,7 +1,13 @@
 const express = require('express')
 const fs = require('fs');
-const app = express()
-const port = 3000
+const { MongoClient } = require('mongodb');
+const app = express();
+const port = 3000;
+
+const url = 'mongodb+srv://heftekharm:N2EObillaaFn6wjp@cluster0.02kqj.mongodb.net/?retryWrites=true&w=majority';
+const client = new MongoClient(url);
+
+connectDb();
 
 app.use(express.json());
 
@@ -86,6 +92,15 @@ function readDatabaseAsJson(){
     jsonDatabase={};
   }
   return jsonDatabase;
+}
+
+async function connectDb(){
+  await client.connect();
+  console.log('Connected successfully to server');
+  const db = client.db("dwall");
+  const collection = db.collection('users');
+  const findResult = await collection.find({}, { array: 1 }).toArray();
+  console.log('Found documents =>', findResult);
 }
 
 module.exports = app;
