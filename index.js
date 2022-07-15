@@ -8,12 +8,19 @@ const url = 'mongodb+srv://heftekharm:N2EObillaaFn6wjp@cluster0.02kqj.mongodb.ne
 const client = new MongoClient(url);
 
 connectDb();
-
 app.use(express.json());
 
 app.get('/wall', function (req, res) {//returns all messages
   let messages=getMessagesFromDb();
   res.json(messages);
+})
+
+app.post('/wall/register', async function(req,res){// writes a new message submitted by a user
+  let email = req.body.email;
+  await registerUser(email);
+  res.json({
+    "status":"User is registerd"   
+  })
 })
 
 app.get('/wall/:username',function (req,res){//returns messages written by a user
@@ -94,13 +101,21 @@ function readDatabaseAsJson(){
   return jsonDatabase;
 }
 
+let db;
+
 async function connectDb(){
   await client.connect();
   console.log('Connected successfully to server');
-  const db = client.db("dwall");
+  db = client.db("dwall");
+}
+
+async function registerUser(email){
+  console.log("registering "+ email);
   const collection = db.collection('users');
-  const findResult = await collection.find({}, { array: 1 }).toArray();
-  console.log('Found documents =>', findResult);
+
+  collection.insertOne({
+    "email":email
+  });
 }
 
 module.exports = app;
