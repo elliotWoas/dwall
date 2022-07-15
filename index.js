@@ -87,3 +87,5 @@ function readDatabaseAsJson(){
   }
   return jsonDatabase;
 }
+
+module.exports = app;
